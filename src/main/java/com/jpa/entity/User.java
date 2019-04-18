@@ -14,17 +14,17 @@ import java.util.Objects;
  */
 @Entity
 public class User {
-    private int id;
+    private Long id;
     private String username;
     private String password;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

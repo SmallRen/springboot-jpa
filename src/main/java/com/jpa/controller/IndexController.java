@@ -1,4 +1,4 @@
-package com.jpa;
+package com.jpa.controller;
 
 import com.jpa.entity.User;
 import com.jpa.service.UserServiceImpl;
