@@ -7,53 +7,53 @@ springboot-jpa
     userRepository.existsById(1L);
 查询所有
 
-List<User> all = userRepository.findAll();
+    List<User> all = userRepository.findAll();
 查询符合主键的所有
 
-List<Long> a = new ArrayList<>();
-a.add(1L);
-a.add(2L);
-List<User> allById = userRepository.findAllById(a);
+    List<Long> a = new ArrayList<>();
+    a.add(1L);
+    a.add(2L);
+    List<User> allById = userRepository.findAllById(a);
 查询所有，id降序
 
-List<User> id = userRepository.findAll(Sort.by("id").descending());
+    List<User> id = userRepository.findAll(Sort.by("id").descending());
 分页根据id降序查询
 
-Pageable pageable =PageRequest.of(1,1, Sort.Direction.DESC,"id");
-Page<User> page = userRepository.findAll(pageable);
-System.out.println("总页数："+page.getTotalPages()+"当前页："+page.getPageable().getPageNumber());
-User user=null;
+    Pageable pageable =PageRequest.of(1,1, Sort.Direction.DESC,"id");
+    Page<User> page = userRepository.findAll(pageable);
+    System.out.println("总页数："+page.getTotalPages()+"当前页："+page.getPageable().getPageNumber());
+    User user=null;
 保存或修改 立即 flush
 
-userRepository.saveAndFlush(user);
+    userRepository.saveAndFlush(user);
 保存或修改
 
-userRepository.save(user);
+    userRepository.save(user);
 批量保存
 
-List<User> list=new ArrayList<>();
-userRepository.saveAll(list);
+    List<User> list=new ArrayList<>();
+    userRepository.saveAll(list);
 删除单个
 
-userRepository.delete(user);
+    userRepository.delete(user);
 删除所有，一条一条执行
 
-userRepository.deleteAll();
+    userRepository.deleteAll();
 单个删除
 
-userRepository.deleteAll(list);
+    userRepository.deleteAll(list);
 批量执行，一条语句
 
-userRepository.deleteAllInBatch();
+    userRepository.deleteAllInBatch();
 根据主键删除
 
-userRepository.deleteById(1l);
+    userRepository.deleteById(1l);
 批量删除
 
-userRepository.deleteInBatch(list);
+    userRepository.deleteInBatch(list);
 统计所有行数
 
-long count = userRepository.count();
+    long count = userRepository.count();
 自定义方法的模糊查询
 
 Page<User> admin4 = userRepository.findByUsernameLike("%admin%", PageRequest.of(0, 1, Sort.Direction.ASC, "username"));
