@@ -69,4 +69,4 @@
 ###根据用户名和密码查询
     User admin2 = userRepository.findByUsernameAndPassword("admin", "123456");
 ###根据用户名查询
-    User admin3 = userRepository.findByUsername("admin");
+    User admin3 = userRepository.findByUsername("admin");我
