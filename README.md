@@ -56,40 +56,40 @@ springboot-jpa
     long count = userRepository.count();
 自定义方法的模糊查询
 
-Page<User> admin4 = userRepository.findByUsernameLike("%admin%", PageRequest.of(0, 1, Sort.Direction.ASC, "username"));
+    Page<User> admin4 = userRepository.findByUsernameLike("%admin%", PageRequest.of(0, 1, Sort.Direction.ASC, "username"));
 QueryByExampleExecutor 接口方法 findAll
 
-User user2 = new User();
-user2.setUsername("admin");
-Example<User> example = Example.of(user2);
-List<User> one = userRepository.findAll(example, Sort.by("username").descending());
+    User user2 = new User();
+    user2.setUsername("admin");
+    Example<User> example = Example.of(user2);
+    List<User> one = userRepository.findAll(example, Sort.by("username").descending());
 QueryByExampleExecutor 接口方法 findOne
 
-User user3 = new User();
-user3.setId(1L);
-Example<User> example1 = Example.of(user3);
-Optional<User> user4 = userRepository.findOne(example1); 
+    User user3 = new User();
+    user3.setId(1L);
+    Example<User> example1 = Example.of(user3);
+    Optional<User> user4 = userRepository.findOne(example1); 
 QueryByExampleExecutor 接口方法 count
 
-User user5 = new User();
-user5.setId(1L);
-Example<User> example2 = Example.of(user3); 
+    User user5 = new User();
+    user5.setId(1L);
+    Example<User> example2 = Example.of(user3); 
 QueryByExampleExecutor 接口方法 findAll 模糊查找
 
-User user6 = new User();
-user6.setUsername("admin");
-ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith());
-Example<User> example3 = Example.of(user2,exampleMatcher);
-List<User> one2 = userRepository.findAll(example3, Sort.by("username").descending());;
+    User user6 = new User();
+    user6.setUsername("admin");
+    ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("username", ExampleMatcher.GenericPropertyMatchers.startsWith());
+    Example<User> example3 = Example.of(user2,exampleMatcher);
+    List<User> one2 = userRepository.findAll(example3, Sort.by("username").descending());;
 根据hql查询用户名
 
-User admin = userRepository.findByHQL("admin");
+    User admin = userRepository.findByHQL("admin");
 根据sql查询用户名
 
-User admin1 = userRepository.findBySQL("admin", "123456");
+    User admin1 = userRepository.findBySQL("admin", "123456");
 根据用户名和密码查询
 
-User admin2 = userRepository.findByUsernameAndPassword("admin", "123456");
+    User admin2 = userRepository.findByUsernameAndPassword("admin", "123456");
 根据用户名查询
 
-User admin3 = userRepository.findByUsername("admin");
+    User admin3 = userRepository.findByUsername("admin");
