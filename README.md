@@ -1,13 +1,13 @@
 # springboot-jpa
 
 ##主键查询
-User user1 = userRepository.getOne(1L);
+User user1 = userRepository.getOne(1L);\<br> 
 ##是否存在的id
-userRepository.existsById(1L);
+userRepository.existsById(1L);\<br> 
 ##查询所有
-List<User> all = userRepository.findAll();
+List<User> all = userRepository.findAll();\<br> 
 ##查询符合主键的所有
-List<Long> a = new ArrayList<>();
+List<Long> a = new ArrayList<>();\<br> 
 a.add(1L);
 a.add(2L);
 List<User> allById = userRepository.findAllById(a);
