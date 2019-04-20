@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsernameAndPassword(String username, String password);
 
     /**
-     * 通过名称模糊查询
+     * 通过名称模糊查询并分页
      *
      * @param username 用户名
      * @return 用户集合。

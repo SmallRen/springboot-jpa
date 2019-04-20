@@ -6,12 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Objects;
 
-/**
- * @Author: renbaojia
- * @CreateDate: 2019-04-17 17:36:46
- * @Description: TODO
- * @Version: 3.4.0
- */
+
 @Entity
 public class User {
     private Long id;
