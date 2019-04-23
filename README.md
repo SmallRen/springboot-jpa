@@ -1,4 +1,6 @@
-springboot-jpa
+##springboot-jpa
+####具体看test包下面的TestJpa单元类
+
 主键查询
 
     User user1 = userRepository.getOne(1L);
@@ -93,3 +95,47 @@ QueryByExampleExecutor 接口方法 findAll 模糊查找
 根据用户名查询
 
     User admin3 = userRepository.findByUsername("admin");
+    
+jdbcTemplate查询
+
+    User user = jdbcTemplate.queryForObject("select id,username,password from user where id=?",new BeanPropertyRowMapper<>(User.class) , new Integer[]{1});
+    log.info("用户名为："+user.getUsername()+"\n"+"密码为："+user.getPassword());
+    //单个字段查询
+    User mUser = jdbcTemplate.queryForObject("select password from user where id=?",new BeanPropertyRowMapper<>(User.class) , new Integer[]{1});
+    log.info("密码为"+mUser.getPassword());
+    //多个用户查询 返回为list
+    List<User> users = jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<>(User.class));
+    log.info("查询大小"+users.size());
+    
+多个用户查询 返回为map
+
+    List< Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select id,username,password from user");
+    log.info("查询大小"+stringObjectMap.size());
+
+
+ 单个用户查询 返回为map
+ 
+    Map<String, Object> map = jdbcTemplate.queryForMap("select * from user where id=?",new Integer[]{1});
+    log.info("用户名为："+map.get("username").toString()+"\t"+"密码为："+map.get("password").toString());
+    //返回表的一些信息
+    SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("select * from user");
+    System.out.println(sqlRowSet.getMetaData().getColumnName(1));
+    System.out.println(sqlRowSet.getMetaData().getColumnClassName(1));
+    System.out.println(sqlRowSet.getMetaData().getColumnLabel(1));
+    System.out.println(sqlRowSet.getMetaData().getCatalogName(1));
+    System.out.println(sqlRowSet.getMetaData().getColumnType(1));
+    System.out.println(sqlRowSet.getMetaData().getColumnTypeName(1));
+    System.out.println(sqlRowSet.getMetaData().getPrecision(1));
+    System.out.println(sqlRowSet.getMetaData().getScale(1));
+    System.out.println(sqlRowSet.getMetaData().getColumnDisplaySize(1));
+    System.out.println(sqlRowSet.getMetaData().getSchemaName(1));
+    System.out.println(sqlRowSet.getMetaData().getTableName(1));
+        while (sqlRowSet.next()){
+            //第几行
+            int row = sqlRowSet.getRow();
+            System.out.println(row);
+            System.out.println("id为："+sqlRowSet.getInt("id"));
+            System.out.println("username为："+sqlRowSet.getString("username"));
+            System.out.println("password为："+sqlRowSet.getString("password"));
+        }
+    

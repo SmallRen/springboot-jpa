@@ -10,11 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
@@ -29,14 +33,17 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestJpa {
+
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
     // 注入userRepository
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Test
     public void find() {
-        log.debug("jpa接口方法--------------------------------");
+   /*     log.debug("jpa接口方法--------------------------------");
         log.debug("jpa查询--------------------------------");
         //主键查询
         User user1 = userRepository.getOne(1L);
@@ -90,12 +97,12 @@ public class TestJpa {
         Page<User> admin4 = userRepository.findByUsernameLike("%admin%", PageRequest.of(0, 1, Sort.Direction.ASC, "username"));
         log.info(admin4.getTotalPages() + "");
         // log.debug("QueryByExampleExecutor 接口方法--------------------------------");
-        /*<S extends T> Optional<S> findOne(Example<S> var1);
+        *//*<S extends T> Optional<S> findOne(Example<S> var1);
         <S extends T> Iterable<S> findAll(Example<S> var1);
         <S extends T> Iterable<S> findAll(Example<S> var1, Sort var2);
         <S extends T> Page<S> findAll(Example<S> var1, Pageable var2);
         <S extends T> long count(Example<S> var1);
-        <S extends T> boolean exists(Example<S> var1);*/
+        <S extends T> boolean exists(Example<S> var1);*//*
         log.debug("findAll--------------------------------------");
         User user2 = new User();
         user2.setUsername("admin");
@@ -140,9 +147,47 @@ public class TestJpa {
         log.debug("根据用户名和密码查询:" + admin2.getUsername());
         //根据用户名查询
         User admin3 = userRepository.findByUsername("admin");
-        log.debug("根据用户名查询:" + admin3.getUsername());
+        log.debug("根据用户名查询:" + admin3.getUsername());*/
+        //jdbcTemplate查询
+        User user = jdbcTemplate.queryForObject("select id,username,password from user where id=?",new BeanPropertyRowMapper<>(User.class) , new Integer[]{1});
+        log.info("用户名为："+user.getUsername()+"\n"+"密码为："+user.getPassword());
+        //单个字段查询
+        User mUser = jdbcTemplate.queryForObject("select password from user where id=?",new BeanPropertyRowMapper<>(User.class) , new Integer[]{1});
+        log.info("密码为"+mUser.getPassword());
+        //多个用户查询 返回为list
+        List<User> users = jdbcTemplate.query("select * from user", new BeanPropertyRowMapper<>(User.class));
+        log.info("查询大小"+users.size());
+        //多个用户查询 返回为map
+       List< Map<String, Object>> stringObjectMap = jdbcTemplate.queryForList("select id,username,password from user");
+        log.info("查询大小"+stringObjectMap.size());
 
 
+        //单个用户查询 返回为map
+        Map<String, Object> map = jdbcTemplate.queryForMap("select * from user where id=?",new Integer[]{1});
+        log.info("用户名为："+map.get("username").toString()+"\t"+"密码为："+map.get("password").toString());
+        //返回表的一些信息
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("select * from user");
+
+        System.out.println(sqlRowSet.getMetaData().getColumnName(1));
+        System.out.println(sqlRowSet.getMetaData().getColumnClassName(1));
+        System.out.println(sqlRowSet.getMetaData().getColumnLabel(1));
+        System.out.println(sqlRowSet.getMetaData().getCatalogName(1));
+        System.out.println(sqlRowSet.getMetaData().getColumnType(1));
+        System.out.println(sqlRowSet.getMetaData().getColumnTypeName(1));
+        System.out.println(sqlRowSet.getMetaData().getPrecision(1));
+        System.out.println(sqlRowSet.getMetaData().getScale(1));
+        System.out.println(sqlRowSet.getMetaData().getColumnDisplaySize(1));
+        System.out.println(sqlRowSet.getMetaData().getSchemaName(1));
+        System.out.println(sqlRowSet.getMetaData().getTableName(1));
+
+        while (sqlRowSet.next()){
+            //第几行
+            int row = sqlRowSet.getRow();
+            System.out.println(row);
+            System.out.println("id为："+sqlRowSet.getInt("id"));
+            System.out.println("username为："+sqlRowSet.getString("username"));
+            System.out.println("password为："+sqlRowSet.getString("password"));
+        }
     }
 
 }
