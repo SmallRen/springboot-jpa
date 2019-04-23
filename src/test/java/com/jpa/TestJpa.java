@@ -167,7 +167,6 @@ public class TestJpa {
         log.info("用户名为："+map.get("username").toString()+"\t"+"密码为："+map.get("password").toString());
         //返回表的一些信息
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("select * from user");
-
         System.out.println(sqlRowSet.getMetaData().getColumnName(1));
         System.out.println(sqlRowSet.getMetaData().getColumnClassName(1));
         System.out.println(sqlRowSet.getMetaData().getColumnLabel(1));
@@ -179,7 +178,6 @@ public class TestJpa {
         System.out.println(sqlRowSet.getMetaData().getColumnDisplaySize(1));
         System.out.println(sqlRowSet.getMetaData().getSchemaName(1));
         System.out.println(sqlRowSet.getMetaData().getTableName(1));
-
         while (sqlRowSet.next()){
             //第几行
             int row = sqlRowSet.getRow();
